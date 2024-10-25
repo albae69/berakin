@@ -1,4 +1,4 @@
-import DashboardCard from '@/components/dashboard_card'
+import DashboardCard from '@/components/dashboard-card'
 import supabase from '@/utils/supabase'
 import useIsLogin from '@/utils/useIsLogin'
 import { createLazyFileRoute } from '@tanstack/react-router'

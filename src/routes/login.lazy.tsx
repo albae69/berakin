@@ -1,4 +1,4 @@
-import ErrorMessage from '@/components/error_message'
+import ErrorMessage from '@/components/error-message'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'

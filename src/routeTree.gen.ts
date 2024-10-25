@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as HistoryImport } from './routes/history'
+import { Route as ChatImport } from './routes/chat'
 
 // Create Virtual Routes
 
@@ -50,6 +51,11 @@ const HistoryRoute = HistoryImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ChatRoute = ChatImport.update({
+  path: '/chat',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
@@ -64,6 +70,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatImport
       parentRoute: typeof rootRoute
     }
     '/history': {
@@ -108,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/chat': typeof ChatRoute
   '/history': typeof HistoryRoute
   '/explore': typeof ExploreLazyRoute
   '/home': typeof HomeLazyRoute
@@ -117,6 +131,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/chat': typeof ChatRoute
   '/history': typeof HistoryRoute
   '/explore': typeof ExploreLazyRoute
   '/home': typeof HomeLazyRoute
@@ -127,6 +142,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/chat': typeof ChatRoute
   '/history': typeof HistoryRoute
   '/explore': typeof ExploreLazyRoute
   '/home': typeof HomeLazyRoute
@@ -136,12 +152,20 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/history' | '/explore' | '/home' | '/login' | '/register'
+  fullPaths:
+    | '/'
+    | '/chat'
+    | '/history'
+    | '/explore'
+    | '/home'
+    | '/login'
+    | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/history' | '/explore' | '/home' | '/login' | '/register'
+  to: '/' | '/chat' | '/history' | '/explore' | '/home' | '/login' | '/register'
   id:
     | '__root__'
     | '/'
+    | '/chat'
     | '/history'
     | '/explore'
     | '/home'
@@ -152,6 +176,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  ChatRoute: typeof ChatRoute
   HistoryRoute: typeof HistoryRoute
   ExploreLazyRoute: typeof ExploreLazyRoute
   HomeLazyRoute: typeof HomeLazyRoute
@@ -161,6 +186,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  ChatRoute: ChatRoute,
   HistoryRoute: HistoryRoute,
   ExploreLazyRoute: ExploreLazyRoute,
   HomeLazyRoute: HomeLazyRoute,
@@ -181,6 +207,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/chat",
         "/history",
         "/explore",
         "/home",
@@ -190,6 +217,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/chat": {
+      "filePath": "chat.tsx"
     },
     "/history": {
       "filePath": "history.tsx"
