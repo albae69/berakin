@@ -20,6 +20,11 @@ export default function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger>Menu</DropdownMenuTrigger>
           <DropdownMenuContent>
+            <Link to='/chat'>
+              <DropdownMenuItem className='cursor-pointer'>
+                Chat
+              </DropdownMenuItem>
+            </Link>
             <Link to='/explore'>
               <DropdownMenuItem className='cursor-pointer'>
                 Eksplore

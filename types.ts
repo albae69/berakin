@@ -14,3 +14,11 @@ export interface PupHistory {
   longitude: string
   users?: User
 }
+
+export interface Message {
+  id: number
+  created_at: string
+  message: string
+  user_id: string
+  users?: User
+}
