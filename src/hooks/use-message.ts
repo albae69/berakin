@@ -2,16 +2,33 @@ import supabase from '@/utils/supabase'
 import { useEffect, useState } from 'react'
 import { Message } from 'types'
 import { useStore } from '@/store/store'
+import { formatDate } from '@/utils/formatDate'
 
 export function useMessage() {
   const store = useStore((state) => state)
 
   const [messages, setMessages] = useState<Message[]>([])
 
+  const groupedByDate = <Record<string, Message[]>>{}
+
+  for (let i = 0; i < messages.length; i++) {
+    const current = messages[i]
+    const date = formatDate(current.created_at)
+
+    if (!groupedByDate[date]) {
+      groupedByDate[date] = []
+    }
+    groupedByDate[date].push(current)
+  }
+
+  const data = Object.keys(groupedByDate).map((k) => {
+    return groupedByDate[k]
+  })
+
   async function getMessage() {
     const { data } = await supabase
       .from('messages')
-      .select('*, users(*)')
+      .select('*, users(name)')
       .order('created_at', { ascending: true })
     setMessages(data!)
   }
@@ -45,5 +62,5 @@ export function useMessage() {
     })()
   }, [])
 
-  return { messages, sendMessage }
+  return { messages, sendMessage, data }
 }

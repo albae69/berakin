@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useMessage } from '@/hooks/use-message'
 import { useStore } from '@/store/store'
+import { formatDate } from '@/utils/formatDate'
 import useIsLogin from '@/utils/useIsLogin'
 import { createFileRoute } from '@tanstack/react-router'
 import { Send } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Message } from 'types'
 
 export const Route = createFileRoute('/chat')({
@@ -21,7 +22,7 @@ function Chat() {
 
   const { isLogin } = useIsLogin()
   const { user } = store
-  const { messages, sendMessage } = useMessage()
+  const { messages, sendMessage, data } = useMessage()
 
   useEffect(() => {
     if (!isLogin) {
@@ -45,14 +46,24 @@ function Chat() {
         </h3>
 
         <div className='h-[84%] mb-4 p-2 border overflow-y-scroll rounded-md'>
-          {messages?.map((item: Message) => (
-            <MessageItem
-              key={item.id}
-              name={item.users!.name}
-              created_at={item.created_at}
-              message={item.message}
-            />
-          ))}
+          {data.map((k, idx) => {
+            return (
+              <React.Fragment key={idx}>
+                <p className='text-xs text-center my-1'>
+                  {formatDate(k[0].created_at).replace(/-/g, ' ')}
+                </p>
+                {k.map((msg) => (
+                  <MessageItem
+                    key={msg.id}
+                    name={msg.users!.name}
+                    created_at={msg.created_at}
+                    message={msg.message}
+                  />
+                ))}
+              </React.Fragment>
+            )
+          })}
+
           <div ref={messagesRef} />
         </div>
         <form
