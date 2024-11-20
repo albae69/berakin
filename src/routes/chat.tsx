@@ -9,7 +9,6 @@ import useIsLogin from '@/utils/useIsLogin'
 import { createFileRoute } from '@tanstack/react-router'
 import { Send } from 'lucide-react'
 import React, { useEffect, useRef } from 'react'
-import { Message } from 'types'
 
 export const Route = createFileRoute('/chat')({
   component: Chat,
